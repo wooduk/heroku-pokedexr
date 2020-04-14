@@ -2,7 +2,7 @@
 venv
 
 # data
-app/static/data
+export.pkl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
