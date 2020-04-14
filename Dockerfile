@@ -11,7 +11,7 @@ COPY app app/
 
 RUN python app/webservice.py
 
-EXPOSE 80
+EXPOSE 5000
 
 CMD ["python", "app/webservice.py", "serve"]
 
