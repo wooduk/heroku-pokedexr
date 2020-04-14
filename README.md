@@ -1,2 +1,2 @@
-# heroku-pokedexr
+# pokedexr-ws
 pokemon classifier web front
