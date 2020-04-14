@@ -1,17 +1,14 @@
-FROM python:3.8-slim-buster
+FROM python:3.7-slim-stretch
 
 RUN apt-get update && apt-get install -y git python3-dev gcc \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR app
-
-ADD requirements.txt .
+COPY requirements.txt .
 
 RUN pip install --upgrade -r requirements.txt
 
-ADD static static 
-ADD webservice.py webservice.py
+COPY app app/
 
-#EXPOSE 5000
+EXPOSE 80
 
-CMD ["python", "webservice.py", "serve"]
+CMD ["python", "app/webservice.py", "serve"]

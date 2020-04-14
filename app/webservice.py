@@ -7,22 +7,28 @@ __all__ = ['ON_JUPY', 'static_dir', 'templates', 'static_files', 'data_files', '
 import sys, os
 from pathlib import Path
 import aiohttp
+import aiofiles
+import asyncio
+import numpy as np
+from PIL import Image
 import pickle
 import base64
 from io import BytesIO
 
 import uvicorn
 from starlette.applications import Starlette
+from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse, RedirectResponse
 from starlette.routing import Route, Mount
 from starlette.templating import Jinja2Templates
 from starlette.staticfiles import StaticFiles
+import python_multipart
 
 from fastai.vision import *
 
 # Cell
 ON_JUPY = os.environ['_'].split('/')[-1].lower() == 'jupyter'
-static_dir = Path('pokedexr/static') if ON_JUPY else Path('static')
+static_dir = Path('pokedexr/static') if ON_JUPY else Path('app/static')
 
 # Cell
 templates = Jinja2Templates(directory=static_dir / 'templates')
@@ -94,8 +100,9 @@ routes = [
 
 # Cell
 app = Starlette(debug=True, routes=routes)
+app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['X-Requested-With', 'Content-Type'])
 
 # Cell
 if __name__ == '__main__':
     if 'serve' in sys.argv:
-        uvicorn.run(app=app, host='0.0.0.0', port=5000, log_level="info")
+        uvicorn.run(app=app, host='0.0.0.0', port=80, log_level="info")
